@@ -32,7 +32,7 @@ byte scan[8][8] = {
   {0,0,0,0,0,0,0,1}
 };
 
-byte circle[8][8] = {
+byte smile[8][8] = {
   {1,1,0,0,0,0,1,1},
   {1,0,1,1,1,1,0,1},
   {0,1,0,1,1,0,1,0},
@@ -42,28 +42,28 @@ byte circle[8][8] = {
   {1,0,1,1,1,1,0,1},
   {1,1,0,0,0,0,1,1}
 };
-byte M[8][8] = {
-  {1,1,1,1,1,1,1,1},
-  {1,1,1,1,1,1,1,1},
-  {1,1,1,1,1,1,1,1},
-  {1,1,1,1,1,1,1,1},
-  {1,1,1,0,0,1,1,1},
+byte cry[8][8] = {
   {1,1,0,0,0,0,1,1},
-  {1,0,0,0,0,0,0,1},
-  {0,1,1,1,1,1,1,0}
+  {1,0,1,1,1,1,0,1},
+  {0,1,0,1,1,0,1,0},
+  {0,1,1,1,1,1,1,0},
+  {0,1,1,0,0,1,1,0},
+  {0,1,0,1,1,0,1,0},
+  {1,0,1,1,1,1,0,1},
+  {1,1,0,0,0,0,1,1}
 };
-byte H[8][8] = {
-  {0,1,1,1,1,1,1,0},
-  {0,1,1,1,1,1,1,0},
-  {0,1,1,1,1,1,1,0},
+byte heart[8][8] = {
+  {1,1,1,1,1,1,1,1},
+  {1,0,0,1,1,0,0,1},
   {0,0,0,0,0,0,0,0},
-  {0,1,1,1,1,1,1,0},
-  {0,1,1,1,1,1,1,0},
-  {0,1,1,1,1,1,1,0},
-  {0,1,1,1,1,1,1,0}
+  {0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0},
+  {1,0,0,0,0,0,0,1},
+  {1,1,0,0,0,0,1,1},
+  {1,1,1,0,0,1,1,1}
 };
 
-
+byte save;
 byte incomingbyte;
 
 void setup() {
@@ -75,24 +75,41 @@ for (byte i = 0; i <= sizeof(col); i++) {
 pinMode(col[i], OUTPUT);
 }
 pinMode(2, INPUT_PULLUP);
+
+
 }
 
 void loop() {
-  if(Serial.available()>0){
-    incomingbyte=Serial.read();
-  }
+    
+    if(Serial.available()>0)
+    {
+      incomingbyte=Serial.read();
+    }
+    if(incomingbyte == 's')
+    { 
+      save='s';
+    }
+    else if(incomingbyte == 'h')
+    {
+      save='h';
+    }
+    else if(incomingbyte == 'c')
+    {
+      save='c';
+    }
+     
+    
+    if(save=='s'){
+       showPattern(smile);
+    }
+    else if(save=='h'){
+      showPattern(heart);
+    }
+    else if(save=='c'){
+      showPattern(cry);
+    }
+    delay(2);
 
-
-  if(incomingbyte=='c'){
-    showPattern(circle);
-  }
-  else if(incomingbyte=='h'){
-    showPattern(H);
-  }
-  else if(incomingbyte=='m'){
-    showPattern(M);
-  }
-  delay(2);
 }
 
 void showPattern(byte matrix[8][8]){
